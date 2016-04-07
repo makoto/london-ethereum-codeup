@@ -2,3 +2,5 @@
 
 # london-ethereum-codeup
 A page to share any tips, notes, logs about London Ethereum codeup
+
+- [Meetup Page](http://www.meetup.com/london-ethereum-codeup/)
