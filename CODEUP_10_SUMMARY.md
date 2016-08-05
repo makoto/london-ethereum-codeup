@@ -1,6 +1,9 @@
 
 CodeUp #10
 
+## Participants
+
+- 12 registered, 9 turn ups, 7 Ether holders, 2 Ethereum newbies.
 
 ## Condition-Orientated Programming
 
@@ -16,3 +19,8 @@ CodeUp #10
 - [Youtube video](https://www.youtube.com/watch?v=gM2qkv1sySY)
 - [Demo site](http://blockparty.io.v02.s3-website-us-west-2.amazonaws.com/)
 - [Blockpary repo](https://github.com/makoto/blockparty)
+
+
+## Truffle walkthrough
+
+- Makoto walked through [Truffle](http://truffle.readthedocs.io/en/docs/). The homework is for everyone to create a sample project by customising scaffolded code.
