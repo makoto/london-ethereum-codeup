@@ -36,4 +36,4 @@ Some random links shared during the study group
 
 - [Vitalik's view on ethereum for financial services](https://r3cev.com/blog/2016/6/2/ethereum-platform-review)
 - [Hive - Ethereum end-to-end test harness](https://github.com/karalabe/hive)
-- [TestRPC DAO Hack Demo code](https://github.com/tcoulter/dao-truffle), ([video demo](https://www.youtube.com/watch?v=MLtsmnhiXCE))
+- [TestRPC DAO Hack Demo code](https://github.com/tcoulter/dao-truffle)([video demo](https://www.youtube.com/watch?v=MLtsmnhiXCE))
