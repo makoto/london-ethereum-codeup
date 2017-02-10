@@ -21,3 +21,4 @@ Some random links shared during the study group
 - [Swarm guide](http://swarm-guide.readthedocs.io/en/latest/installation.html)
 - [Ethereum token](https://github.com/ethereum/EIPs/issues/20)
 https://github.com/ethereum/wiki/wiki/JavaScript-API#web3ethsendtransaction
+- [Tramonex](https://tramonex.com) = Fiat currency pegged token system
