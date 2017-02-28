@@ -54,7 +54,7 @@ Base HD Path:  m/44'/60'/0'/0/{account_index}
 Listening on localhost:8545
 ```
 
-### Creating sample project
+### Creating a sample project
 
 ```
 mkdir truffletest1
@@ -196,6 +196,8 @@ instance.getBalance.call(accounts[1]).then(function(o){console.log(o.toNumber())
 // 10
 ```
 
+When sending a transaction you can either use `contract_instance.functionName()` or `contract_instance.functionName.sendTransaction()`
+
 #### Quitting console
 
 ```
@@ -264,7 +266,7 @@ chunk    {0} app.js (main) 1.32 MB [entry] [rendered]
 webpack: Compiled successfully.
 ```
 
-You should see the following like pages
+Go to http://localhost:8080 and you should see a page like the following
 
 ![](https://camo.githubusercontent.com/04b08e699097d088bc3080440c66327615e1d776/687474703a2f2f692e696d6775722e636f6d2f556f75357261592e706e67)
 
