@@ -57,8 +57,8 @@ Listening on localhost:8545
 ### Creating sample project
 
 ```
-mkdir $project_name
-cd $project_name
+mkdir truffletest1
+cd truffletest1
 minoue@macminoue:~/work/truffletest1 $ truffle init
 Downloading project...
 Project initialized.
