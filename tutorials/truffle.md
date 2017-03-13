@@ -59,18 +59,26 @@ Listening on localhost:8545
 ```
 mkdir truffletest1
 cd truffletest1
-minoue@macminoue:~/work/truffletest1 $ truffle init
+minoue@macminoue:~/work/truffletest1 $ npm init y
+minoue@macminoue:~/work/truffletest1 $ truffle init webpack
 Downloading project...
+Installing dependencies...
 Project initialized.
 
-  Documentation: http://truffleframework.com/docs
+  Documentation: https://github.com/trufflesuite/truffle-init-webpack
 
 Commands:
 
-  Compile: truffle compile
-  Migrate: truffle migrate
-  Test:    truffle test
+  Compile:        truffle compile
+  Migrate:        truffle migrate
+  Test:           truffle test
+  Build Frontend: npm run build
+  Run Linter:     npm run lint
+  Run Dev Server: npm run dev
 ```
+
+NOTE: `truffle init` without `webpack` initialize new Ethereum project with example contracts and tests only.
+You can choose different build system (eg: `truffle init default`), but for this tutorial we use webpack.
 
 ### Running Test
 
@@ -208,27 +216,39 @@ truffle(development)> .exit
 
 At truffle 3.0, front end build process became configurable so you could use your favorite prefred choice such as webpack, grunt, etc.
 
-For this tutorial, it will use webpack scaffold
+For this tutorial, we initialised with webpack scaffold so you should see files like `webpack.config.js`. and asset files ander `app`
+
+Run `npm run build` and make sure file is created under `build`
 
 ```
-minoue@macminoue:~/work/truffletest1 $ npm init
-# follow the instruction
-minoue@macminoue:~/work/truffletest1 (master)*$ truffle init webpack
-Downloading project...
-Installing dependencies...
-Project initialized.
+minoue@macminoue:~/work/truffletest1 (master)*$ npm run build
+> truffle-init-webpack@0.0.1 build /Users/minoue/work/truffletest1
+> webpack
 
-  Documentation: https://github.com/trufflesuite/truffle-init-webpack
-
-Commands:
-
-  Compile:        truffle compile
-  Migrate:        truffle migrate
-  Test:           truffle test
-  Build Frontend: npm run build
-  Run Linter:     npm run lint
-  Run Dev Server: npm run dev
+Hash: 6b945ac596293fb32009
+Version: webpack 2.2.1
+Time: 1394ms
+     Asset       Size  Chunks                    Chunk Names
+    app.js    1.04 MB       0  [emitted]  [big]  main
+index.html  925 bytes          [emitted]         
+  [20] ./~/web3/lib/utils/sha3.js 1.19 kB {0} [built]
+  [39] (webpack)/buildin/module.js 517 bytes {0} [built]
+  [40] ./~/web3/index.js 193 bytes {0} [built]
+  [53] ./build/contracts/MetaCoin.json 3.27 kB {0} [built]
+  [54] ./app/stylesheets/app.css 905 bytes {0} [built]
+  [55] ./~/truffle-contract/index.js 2.64 kB {0} [built]
+  [79] ./~/css-loader!./app/stylesheets/app.css 777 bytes {0} [built]
+  [90] ./~/style-loader/addStyles.js 6.91 kB {0} [built]
+  [92] ./~/truffle-contract-schema/index.js 5.4 kB {0} [built]
+  [96] ./~/truffle-contract/contract.js 23.4 kB {0} [built]
+ [144] ./~/web3/lib/web3.js 4.45 kB {0} [built]
+ [150] ./~/web3/lib/web3/httpprovider.js 3.94 kB {0} [built]
+ [151] ./~/web3/lib/web3/ipcprovider.js 5.51 kB {0} [built]
+ [153] ./~/web3/lib/web3/methods/eth.js 9.84 kB {0} [built]
+ [164] ./app/javascripts/app.js 3.64 kB {0} [built]
+    + 150 hidden modules
 ```
+
 
 #### Startup dev Server
 
@@ -280,3 +300,14 @@ Try to send coin to another address, then confirm from your truffle console that
 - [testrpc](https://github.com/ethereumjs/testrpc)
 - [truffle](http://truffleframework.com/docs/)
 - [web3](https://github.com/ethereum/wiki/wiki/JavaScript-API)
+
+
+
+```
+minoue@macminoue:~/work/london-ethereum-codeup (master)$ java -version
+java version "1.8.0_45"
+Java(TM) SE Runtime Environment (build 1.8.0_45-b14)
+Java HotSpot(TM) 64-Bit Server VM (build 25.45-b02, mixed mode)
+minoue@macminoue:~/work/london-ethereum-codeup (master)$ java /Users/minoue/Downloads/Meteor-Dapp-Development-Etherum-2.3-OSX/Meteor-Dapp-Development-Etherum-2.3-OSX.jar
+Error: Could not find or load main class .Users.minoue.Downloads.Meteor-Dapp-Development-Etherum-2.3-OSX.Meteor-Dapp-Development-Etherum-2.3-OSX.jar
+```
