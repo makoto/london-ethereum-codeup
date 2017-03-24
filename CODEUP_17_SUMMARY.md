@@ -15,7 +15,7 @@ Ask discounts at [gitter channel](gitter.im/makoto/london-ethereum-codeup)
 
 - Laurence went through [MiniMeToken](https://github.com/Giveth/minime/blob/master/MiniMeToken.sol) which allows you to clone existing token as part of token migration plan.
 - Talked about ICO and how [token contracts](https://github.com/ethereum/EIPs/issues/20) work.
-- Talked about variety of stable tokens such as [Maker](https://makerdao.com/), [Digix](https://www.dgx.io/), and [Stabl](https://media.consensys.net/stabl-bringing-stable-tokens-and-derivative-products-to-the-ethereum-blockchain-abc8591b0468#.ykq11aeo9)
+- Talked about variety of stable tokens such as [Maker](https://makerdao.com/), [Digix](https://www.dgx.io/),[OZ Gold](http://ozgld.com/) and [Stabl](https://media.consensys.net/stabl-bringing-stable-tokens-and-derivative-products-to-the-ethereum-blockchain-abc8591b0468#.ykq11aeo9)
 - Talked about some bug debugging exercises.
 
 ### For next code up
