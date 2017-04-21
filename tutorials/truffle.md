@@ -302,12 +302,3 @@ Try to send coin to another address, then confirm from your truffle console that
 - [web3](https://github.com/ethereum/wiki/wiki/JavaScript-API)
 
 
-
-```
-minoue@macminoue:~/work/london-ethereum-codeup (master)$ java -version
-java version "1.8.0_45"
-Java(TM) SE Runtime Environment (build 1.8.0_45-b14)
-Java HotSpot(TM) 64-Bit Server VM (build 25.45-b02, mixed mode)
-minoue@macminoue:~/work/london-ethereum-codeup (master)$ java /Users/minoue/Downloads/Meteor-Dapp-Development-Etherum-2.3-OSX/Meteor-Dapp-Development-Etherum-2.3-OSX.jar
-Error: Could not find or load main class .Users.minoue.Downloads.Meteor-Dapp-Development-Etherum-2.3-OSX.Meteor-Dapp-Development-Etherum-2.3-OSX.jar
-```
