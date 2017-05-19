@@ -2,7 +2,7 @@
 
 ## Participants
 
-- 20 registered (1 wait list), 8 attended. May be about time to start using BlockParty
+- 20 registered (1 wait list), 8 attended. About time to start using BlockPart?
 
 ### Topics we discussed
 
