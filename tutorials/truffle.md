@@ -1,3 +1,16 @@
+# Ethereum programming 101 tutorial
+
+This is a quick walk through of ethereum programming which we recommend the participants of London Ethereum Codup to go through before joining our meetup.
+
+## References
+
+- [Ethereum](http://www.ethdocs.org/en/latest/)
+- [Solidity](https://solidity.readthedocs.io/en/develop)
+- [testrpc](https://github.com/ethereumjs/testrpc)
+- [truffle](http://truffleframework.com/docs/)
+- [web3](https://github.com/ethereum/wiki/wiki/JavaScript-API)
+
+
 ## Prerequisite
 
 - node.js, npm
@@ -291,14 +304,4 @@ Go to http://localhost:8080 and you should see a page like the following
 ![](https://camo.githubusercontent.com/04b08e699097d088bc3080440c66327615e1d776/687474703a2f2f692e696d6775722e636f6d2f556f75357261592e706e67)
 
 Try to send coin to another address, then confirm from your truffle console that coin is transferred from one account to another.
-
-
-### References
-
-- [Ethereum](http://www.ethdocs.org/en/latest/)
-- [Solidity](https://solidity.readthedocs.io/en/develop)
-- [testrpc](https://github.com/ethereumjs/testrpc)
-- [truffle](http://truffleframework.com/docs/)
-- [web3](https://github.com/ethereum/wiki/wiki/JavaScript-API)
-
 
