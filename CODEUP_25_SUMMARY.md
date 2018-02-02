@@ -28,7 +28,7 @@ The last year in the same event, the history happened when participants got extr
 
 ## Other links
 
--[Learn blockchains by building one](https://hackernoon.com/learn-blockchains-by-building-one-117428612f46)
+- [Learn blockchains by building one](https://hackernoon.com/learn-blockchains-by-building-one-117428612f46)
 - https://ripple.com = We kept debating why ripple is useful(or useless)
 - https://gitcoin.co
 - [Proof of location](https://blog.foam.space/introduction-to-proof-of-location-6b4c77928022?gi=314387be28c3)
