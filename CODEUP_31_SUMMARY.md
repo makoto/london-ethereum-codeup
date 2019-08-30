@@ -1,5 +1,11 @@
-## Topics we want to talk about
 
-- Makoto from [Kickback](http://kickback.events) wants to talk about new feature which should be implemented by the meetup. If I am comfortable with the code quality, I may through some bug bounty ETH/DAI
-- Lev from [Dapphub](https://dapphub.com/) will do quick demo of [klab](https://github.com/dapphub/klab) for formal verification.
-- Makoto will probably go through the hack he did with Will Harborne , https://devpost.com/software/offset-dai
+## Participants
+
+https://kickback.events/event/0xfda77776b5a9fde0af558132b12f9c8ada8572e7
+
+## Topics
+
+- Tom talked about [Aztec starter kit](https://github.com/AztecProtocol/aztec-ganache-starter-kit)
+- Frant talked about [Rdai](http://redeem.money) and [LSDAI](https://devpost.com/software/lsdai)
+- Lev talked about [HEVM](http://dapp.tools/hevm/)
+
