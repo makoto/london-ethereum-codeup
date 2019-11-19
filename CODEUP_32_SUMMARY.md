@@ -3,6 +3,8 @@
 
 https://kickback.events/event/0xef00483442dc8321bf110a5366b18544551d1292
 
+[Tweetstorm with photos](https://twitter.com/makoto_inoue/status/1196936450408943616)
+
 ## Projects participants are involved
 
 - [Kickback](http://kickback.events/)
@@ -25,9 +27,9 @@ https://kickback.events/event/0xef00483442dc8321bf110a5366b18544551d1292
 - [ENS popular subdomains](https://medium.com/the-ethereum-name-service/ens-domain-rankings-the-most-subdomains-3b4fc8afe35b)
 - [ENS short name auction result](https://medium.com/the-ethereum-name-service/the-most-popular-eth-names-in-the-ens-short-name-auction-final-5d3466dd8837)
 - [Vitalik's proposal of using harberger tax on ENS](https://discuss.ens.domains/t/highlight-robin-hansons-more-owner-forgiving-modified-harberger-tax/1071)
-- https://now.ens.domains and http://ismoney.eth.link/ (how to get subdomains) 
+- https://now.ens.domains and http://ismoney.eth.link/ for getting ENS subdomains
 - [AKAP white paper](https://github.com/cfelde/AKAP/blob/master/WHITEPAPER.md)
-- [A service to revoke ](https://revoke.cash/)
+- https://revoke.cash/
 - https://medium.com/future-of-blockchain/fob-2-challenges-9b9a7eabb62b
 - https://thedefiant.substack.com/p/balance-sheet-as-a-business-model
 - [EVM for Java](https://github.com/web3j/evm)
