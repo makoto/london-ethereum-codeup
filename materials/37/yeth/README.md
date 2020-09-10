@@ -15,7 +15,7 @@
 
 ## Flows
 
-### 
+### Deposit Eth
 
 - https://etherscan.io/tx/0x2f79adefdc14ab49dc5827dc1f2ef36cf5db6bc689633efe34b7f99b9f1dbda3
 
@@ -46,3 +46,4 @@ TBA
 
 - How does it autmatically rebalance when Eth price changes?
 - Currently [$17M USD](https://defiexplore.com/cdp/13972) worth of DAI are minted while there are only [$13M USD](https://www.curve.fi/iearn/) worth of DAI in Curve. What happens when it tries to rebalance when Eth price crashes and there isn't enough DAI in Curve?
+- Where is 60M cap mentioned in the blog post?
