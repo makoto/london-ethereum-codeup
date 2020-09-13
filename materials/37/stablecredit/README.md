@@ -7,6 +7,7 @@ The diagram is from [@finematics tweet](https://twitter.com/finematics/status/13
 - [Introducing StableCredit, a new protocol for decentralized lending, stablecoins, and AMMs.](https://medium.com/iearn/introducing-stablecredit-a-new-protocol-for-decentralized-lending-stablecoins-and-amms-7252a43ee56)
 
 - [Tweet storm via @DeFiGod](https://twitter.com/DeFiGod1/status/1304070343204712452)
+- [Tweet srom via @lisajytan](https://twitter.com/lisajytan/status/1304584889237270528)
 - [Codeup Video](https://youtu.be/bdC3rNDChbw?t=1998)
 - [Bankless video](https://www.youtube.com/watch?v=SkTuMVBLBNQ)
 
