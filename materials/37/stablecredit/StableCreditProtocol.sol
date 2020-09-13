@@ -1,5 +1,5 @@
 /**
- *Submitted for verification at Etherscan.io on 2020-09-10
+ *Submitted for verification at Etherscan.io on 2020-09-11
 */
 
 pragma solidity ^0.5.17;
@@ -212,6 +212,22 @@ interface UniswapRouter {
         address to,
         uint deadline
     ) external returns (uint amountA, uint amountB);
+    function swapExactTokensForTokens(
+        uint amountIn,
+        uint amountOutMin,
+        address[] calldata path,
+        address to,
+        uint deadline
+    ) external returns (uint[] memory amounts);
+    function swapTokensForExactTokens(
+        uint amountOut,
+        uint amountInMax,
+        address[] calldata path,
+        address to,
+        uint deadline
+    ) external returns (uint[] memory amounts);
+    function getAmountsOut(uint amountIn, address[] calldata path) external view returns (uint[] memory amounts);
+    function getAmountsIn(uint amountOut, address[] calldata path) external view returns (uint[] memory amounts);
     function factory() external view returns (address);
 }
 
@@ -227,7 +243,6 @@ contract StableCreditProtocol is ERC20, ERC20Detailed {
 
     // Oracle used for price debt data (external to the AMM balance to avoid internal manipulation)
     Oracle public constant LINK = Oracle(0x271bf4568fb737cc2e6277e9B1EE0034098cDA2a);
-    // Uniswap v2
     UniswapRouter public constant UNI = UniswapRouter(0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D);
     
     // Maximum credit issued off of deposits (to avoid infinite leverage)
@@ -238,18 +253,79 @@ contract StableCreditProtocol is ERC20, ERC20Detailed {
     mapping (address => mapping(address => uint)) public credit;
     // user => token => balance
     mapping (address => mapping(address => uint)) public balances;
+    // user => address[] markets (credit markets supplied to)
+    mapping (address => address[]) public markets;
     
-    // How much system liquidity is provided by this asset
-    function utilization(address token) public view returns (uint) {
-        address pair = UniswapFactory(UNI.factory()).getPair(token, address(this));
-        uint _ratio = BASE.sub(BASE.mul(balanceOf(pair)).div(totalSupply()));
-        if (_ratio == 0) {
-            return MAX;
-        }
-        return  _ratio > MAX ? MAX : _ratio;
+    event Borrow(address indexed borrower, address indexed borrowed, uint creditIn, uint amountOut);
+    event Repay(address indexed borrower, address indexed repaid, uint creditOut, uint amountIn);
+    event Deposit(address indexed creditor, address indexed collateral, uint creditOut, uint amountIn, uint creditMinted);
+    event Withdraw(address indexed creditor, address indexed collateral, uint creditIn, uint creditOut, uint amountOut);
+    
+    constructor () public ERC20Detailed("StableCredit", "scUSD", 8) {}
+    
+    // Borrow exact amount of token output, can have variable USD input up to inMax
+    function borrowExactOut(address token, uint inMax, uint outExact) external {
+        _transfer(msg.sender, address(this), inMax);
+        
+        IERC20(this).safeApprove(address(UNI), 0);
+        IERC20(this).safeApprove(address(UNI), inMax);
+        
+        address[] memory _path = new address[](2);
+        _path[0] = address(this);
+        _path[1] = token;
+        
+        uint[] memory _amounts = UNI.swapTokensForExactTokens(outExact, inMax, _path, msg.sender, now.add(1800));
+        _transfer(address(this), msg.sender, balanceOf(address(this)));
+        
+        emit Borrow(msg.sender, token, _amounts[0], _amounts[1]);
     }
     
-    constructor () public ERC20Detailed("StableCredit", "USD", 8) {}
+    // Borrow variable amount of token, given exact USD input
+    function borrowExactIn(address token, uint inExact, uint outMin) external {
+        _transfer(msg.sender, address(this), inExact);
+        
+        IERC20(this).safeApprove(address(UNI), 0);
+        IERC20(this).safeApprove(address(UNI), inExact);
+        
+        address[] memory _path = new address[](2);
+        _path[0] = address(this);
+        _path[1] = token;
+        
+        uint[] memory _amounts = UNI.swapExactTokensForTokens(inExact, outMin, _path, msg.sender, now.add(1800));
+        
+        emit Borrow(msg.sender, token, _amounts[0], _amounts[1]);
+    }
+    
+    // Repay variable amount of token given exact output amount in USD
+    function repayExactOut(address token, uint inMax, uint outExact) external {
+        IERC20(token).safeTransferFrom(msg.sender, address(this), inMax);
+        
+        IERC20(token).safeApprove(address(UNI), 0);
+        IERC20(token).safeApprove(address(UNI), inMax);
+        
+        address[] memory _path = new address[](2);
+        _path[0] = token;
+        _path[1] = address(this);
+        
+        uint[] memory _amounts = UNI.swapTokensForExactTokens(outExact, inMax, _path, msg.sender, now.add(1800));
+        IERC20(token).safeTransfer(msg.sender, IERC20(token).balanceOf(address(this)));
+        emit Repay(msg.sender, token, _amounts[1], _amounts[0]);
+    }
+    
+    // Repay variable amount of USD, given exact amount of token input
+    function repayExactIn(address token, uint inExact, uint outMin) external {
+        IERC20(token).safeTransferFrom(msg.sender, address(this), inExact);
+        
+        IERC20(this).safeApprove(address(UNI), 0);
+        IERC20(this).safeApprove(address(UNI), inExact);
+        
+        address[] memory _path = new address[](2);
+        _path[0] = token;
+        _path[1] = address(this);
+        
+        uint[] memory _amounts = UNI.swapExactTokensForTokens(inExact, outMin, _path, msg.sender, now.add(1800));
+        emit Repay(msg.sender, token, _amounts[1], _amounts[0]);
+    }
     
     function depositAll(address token) external {
         deposit(token, IERC20(token).balanceOf(msg.sender));
@@ -261,20 +337,20 @@ contract StableCreditProtocol is ERC20, ERC20Detailed {
     
     // UNSAFE: No slippage protection, should not be called directly
     function _deposit(address token, uint amount) internal {
-        uint value = LINK.getPriceUSD(token).mul(amount).div(uint256(10)**ERC20Detailed(token).decimals());
-        require(value > 0, "!value");
+        uint _value = LINK.getPriceUSD(token).mul(amount).div(uint256(10)**ERC20Detailed(token).decimals());
+        require(_value > 0, "!value");
         
-        address pair = UniswapFactory(UNI.factory()).getPair(token, address(this));
-        if (pair == address(0)) {
-            pair = UniswapFactory(UNI.factory()).createPair(token, address(this));
+        address _pair = UniswapFactory(UNI.factory()).getPair(token, address(this));
+        if (_pair == address(0)) {
+            _pair = UniswapFactory(UNI.factory()).createPair(token, address(this));
         }
         
-        IERC20(token).safeTransferFrom(msg.sender, pair, amount);
-        _mint(pair, value); // Amount of aUSD to mint
+        IERC20(token).safeTransferFrom(msg.sender, _pair, amount);
+        _mint(_pair, _value); // Amount of aUSD to mint
         
-        uint _before = IERC20(pair).balanceOf(address(this));
-        UniswapPair(pair).mint(address(this));
-        uint _after = IERC20(pair).balanceOf(address(this));
+        uint _before = IERC20(_pair).balanceOf(address(this));
+        UniswapPair(_pair).mint(address(this));
+        uint _after = IERC20(_pair).balanceOf(address(this));
         
 
         // Assign LP tokens to user, token <> pair is deterministic thanks to CREATE2
@@ -283,9 +359,13 @@ contract StableCreditProtocol is ERC20, ERC20Detailed {
         // Calculate utilization ratio of the asset. The more an asset contributes to the system, the less credit issued
         // This mechanism avoids large influx of deposits to overpower the system
         // Calculated after deposit to see impact of current deposit (prevents front-running credit)
-        uint _credit = value.mul(utilization(token)).div(BASE);
+        uint _credit = _value.mul(utilization(token)).div(BASE);
         credit[msg.sender][token] = credit[msg.sender][token].add(_credit);
         _mint(msg.sender, _credit);
+        
+        
+        markets[msg.sender].push(token);
+        emit Deposit(msg.sender, token, _credit, amount, _value);
     }
     
     function withdrawAll(address token) external {
@@ -312,10 +392,10 @@ contract StableCreditProtocol is ERC20, ERC20Detailed {
         // Calculate % of collateral to release
         _uni = _uni.mul(amount).div(_credit);
         
-        address pair = UniswapFactory(UNI.factory()).getPair(token, address(this));
+        address _pair = UniswapFactory(UNI.factory()).getPair(token, address(this));
         
-        IERC20(pair).safeApprove(address(UNI), 0);
-        IERC20(pair).safeApprove(address(UNI), _uni);
+        IERC20(_pair).safeApprove(address(UNI), 0);
+        IERC20(_pair).safeApprove(address(UNI), _uni);
         
         UNI.removeLiquidity(
           token,
@@ -327,22 +407,43 @@ contract StableCreditProtocol is ERC20, ERC20Detailed {
           now.add(1800)
         );
         
-        uint amountA = IERC20(token).balanceOf(address(this));
-        uint amountB = balanceOf(address(this));
+        uint _amountA = IERC20(token).balanceOf(address(this));
+        uint _amountB = balanceOf(address(this));
         
-        uint valueA = LINK.getPriceUSD(token).mul(amountA).div(uint256(10)**ERC20Detailed(token).decimals());
-        require(valueA > 0, "!value");
+        uint _valueA = LINK.getPriceUSD(token).mul(_amountA).div(uint256(10)**ERC20Detailed(token).decimals());
+        require(_valueA > 0, "!value");
         
         // Collateral increased in value, but we max at amount B withdrawn
-        if (valueA > amountB) {
-            valueA = amountB;
+        if (_valueA > _amountB) {
+            _valueA = _amountB;
         }
         
-        _burn(address(this), valueA); // Amount of aUSD to burn (value of A leaving the system)
+        _burn(address(this), _valueA); // Amount of aUSD to burn (value of A leaving the system)
         
-        IERC20(token).safeTransfer(msg.sender, amountA);
-        if (amountB > valueA) { // Asset A appreciated in value, receive credit diff
-            IERC20(this).safeTransfer(msg.sender, balanceOf(address(this)));
+        IERC20(token).safeTransfer(msg.sender, _amountA);
+        uint _left = balanceOf(address(this));
+        if (_left > 0) { // Asset A appreciated in value, receive credit diff
+            _transfer(address(this), msg.sender, _left);
         }
+        emit Withdraw(msg.sender, token, amount, _left, _amountA);
+    }
+    
+    
+    function getMarkets(address owner) external view returns (address[] memory) {
+        return markets[owner];
+    }
+    
+    function utilization(address token) public view returns (uint) {
+        return _utilization(token, 0);
+    }
+    
+    // How much system liquidity is provided by this asset
+    function _utilization(address token, uint amount) internal view returns (uint) {
+        address _pair = UniswapFactory(UNI.factory()).getPair(token, address(this));
+        uint _ratio = BASE.sub(BASE.mul(balanceOf(_pair).add(amount)).div(totalSupply()));
+        if (_ratio == 0) {
+            return MAX;
+        }
+        return  _ratio > MAX ? MAX : _ratio;
     }
 }
