@@ -12,10 +12,15 @@ We don't know yet but there were some test (in prod) transactions for test deplo
 
 - [Tweet storm via @DeFiGod](https://twitter.com/DeFiGod1/status/1304070343204712452)
 
-## UML
+## Source
 
-- [StableCreditProtocol.sol.svg](StableCreditProtocol.sol.svg) = From 
+- [StableCreditProtocol](https://etherscan.io/address/0x15fe17da18288d1799643be1bb07fb939626f5f9#code)
+- [StableCreditHelper](https://etherscan.io/address/0xe0ca06c6972d8c71b70475faa9d7b3f3a505ec69#code)
+
+## UML
+
 - [StableCreditProtocol.sol.svg](StableCreditProtocol.sol.svg)
+- [StableCreditProtocolHelper.sol.svg](StableCreditProtocolHelper.sol.svg)
 
 ## Flows
 
